@@ -3,6 +3,7 @@ import UploadBox from './UploadBox';
 
 export default function FormSection({ 
   name, setName,
+  builderTitle, setBuilderTitle,
   role, setRole,
   college, setCollege,
   status, setStatus,
@@ -32,6 +33,21 @@ export default function FormSection({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Enter your name"
+          maxLength={30}
+          className="w-full bg-brand-green-darkest/40 border border-brand-green-medium/60 rounded-md px-4 py-3 font-sans text-sm text-white placeholder-emerald-500/30 focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow/30 outline-none transition-all duration-300"
+        />
+      </div>
+
+      {/* Builder Title Input */}
+      <div className="flex flex-col space-y-2">
+        <label className="font-mono text-[10px] font-bold tracking-widest text-emerald-500/70 uppercase">
+          BUILDER TITLE
+        </label>
+        <input 
+          type="text" 
+          value={builderTitle}
+          onChange={(e) => setBuilderTitle(e.target.value)}
+          placeholder="e.g. PIXEL ARCHITECT"
           maxLength={30}
           className="w-full bg-brand-green-darkest/40 border border-brand-green-medium/60 rounded-md px-4 py-3 font-sans text-sm text-white placeholder-emerald-500/30 focus:border-brand-yellow focus:ring-1 focus:ring-brand-yellow/30 outline-none transition-all duration-300"
         />

@@ -85,8 +85,9 @@ export default function Hero() {
         >
           <BuilderCard 
             name="Alex Chen" 
-            role="PIXEL ARCHITECT" 
-            college="HHG ORIGIN" 
+            builderTitle="PIXEL ARCHITECT"
+            role="FULL STACK DEVELOPER" 
+            college="ABCD UNIVERSITY" 
             status="STILL SHIPPING" 
             image={alexChenAvatar}
             variant="hero"

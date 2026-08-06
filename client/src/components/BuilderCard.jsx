@@ -1,145 +1,132 @@
 import React from 'react';
 
 export default function BuilderCard({ 
+  image = null,
   name = '', 
+  builderTitle = '', 
   role = '', 
-  college = '', 
   status = '', 
-  image = null, 
+  college = '', 
   variant = 'generator',
   cardRef = null
 }) {
-  // Format the name: split by spaces to stack it like "ALEX \n CHEN" if it's the hero card
-  // or if it's two words, to give it that bold display-serif look.
-  const nameParts = name.trim().split(/\s+/);
-  const displayFirst = nameParts[0] || 'YOUR';
-  const displayLast = nameParts.slice(1).join(' ') || 'NAME';
-
-  // Generate a mock hash for the generator card based on name length or generic hex
-  const getHash = () => {
-    if (variant === 'hero') return '#TransInGoa';
-    if (!name) return '2F793E1BCA';
-    // Simple deterministic hash
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const hex = Math.abs(hash).toString(16).toUpperCase().substring(0, 10);
-    return hex.padEnd(10, 'F');
-  };
+  // Determine displayed values, substituting placeholders if empty
+  const isHero = variant === 'hero';
+  
+  const displayName = name.trim() 
+    ? name 
+    : (isHero ? 'ALEX CHEN' : 'YOUR NAME');
+    
+  const displayTitle = builderTitle.trim() 
+    ? builderTitle 
+    : (isHero ? 'PIXEL ARCHITECT' : 'BUILDER TITLE');
+    
+  const displayRole = role.trim() 
+    ? role 
+    : (isHero ? 'FULL STACK DEVELOPER' : 'ROLE / TECH STACK');
+    
+  const displayStatus = status.trim() 
+    ? status 
+    : (isHero ? 'STILL SHIPPING' : 'CURRENT STATUS');
+    
+  const displayCollege = college.trim() 
+    ? college 
+    : (isHero ? 'ABCD UNIVERSITY' : 'COLLEGE / COMPANY');
 
   return (
     <div 
       ref={cardRef}
-      className="relative w-[340px] h-[470px] bg-brand-green-card border-2 border-emerald-500/30 rounded-lg p-6 shadow-2xl flex flex-col justify-between overflow-hidden group select-none"
+      className="relative w-[360px] h-[520px] bg-brand-green-card border-[3px] border-brand-yellow p-3 rounded-sm shadow-2xl flex flex-col select-none"
       style={{
-        boxShadow: '0 20px 50px rgba(2, 22, 14, 0.9), inset 0 0 40px rgba(16, 185, 129, 0.05)'
+        boxShadow: '0 25px 60px rgba(2, 22, 14, 0.95), inset 0 0 50px rgba(16, 185, 129, 0.05)'
       }}
     >
-      {/* Background Grid & Rings */}
-      <div className="absolute inset-0 pointer-events-none opacity-20 transition-opacity duration-500 group-hover:opacity-30">
-        <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-          {/* Radial concentric rings centered at avatar (cx=170, cy=112) */}
-          <circle cx="170" cy="112" r="90" fill="none" stroke="#10b981" strokeWidth="1" strokeDasharray="3 6" />
-          <circle cx="170" cy="112" r="115" fill="none" stroke="#10b981" strokeWidth="1" strokeDasharray="1 8" />
-          {/* Vertical axis line */}
-          <line x1="170" y1="0" x2="170" y2="470" stroke="#10b981" strokeWidth="0.5" strokeDasharray="4 4" />
-        </svg>
-      </div>
+      {/* Inner thin gold border container */}
+      <div className="w-full h-full border border-brand-yellow/30 rounded-md p-4 flex flex-col justify-between">
+        
+        {/* Card Header */}
+        <div className="text-center">
+          <h3 className="font-mono text-[10px] tracking-[0.25em] text-brand-yellow font-bold uppercase">
+            HH GOA 2026
+          </h3>
+        </div>
 
-      {/* Avatar Section */}
-      <div className="relative flex flex-col items-center mt-4">
-        {/* Decorative circle outline */}
-        <div className="absolute -inset-2 rounded-full border border-emerald-500/20 animate-spin-slow pointer-events-none"></div>
-        <div className="absolute -inset-1.5 rounded-full border border-brand-yellow/30 pointer-events-none"></div>
-
-        {/* Profile Image container */}
-        <div className="relative w-[120px] h-[120px] rounded-full overflow-hidden border-2 border-brand-yellow bg-brand-green-dark flex items-center justify-center">
+        {/* Uploaded Photo container (Roughly 45-50% card height) */}
+        <div className="relative w-full h-[210px] rounded-2xl overflow-hidden border border-brand-yellow/30 bg-brand-green-dark/30 flex items-center justify-center mt-3">
           {image ? (
             <img 
               src={image} 
-              alt="Builder Avatar" 
+              alt="Builder Profile" 
               className="w-full h-full object-cover"
             />
           ) : (
-            <div className="flex items-center justify-center w-full h-full text-emerald-500/40">
-              {/* Default avatar SVG */}
-              <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            <div className="flex flex-col items-center justify-center text-emerald-500/20">
+              <svg className="w-16 h-16 stroke-[1.25]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"></path>
               </svg>
             </div>
           )}
         </div>
-      </div>
 
-      {/* Name Section */}
-      <div className="flex flex-col items-center text-center mt-2 z-10">
-        <h2 className="font-serif text-[28px] leading-tight font-extrabold text-brand-yellow tracking-wide uppercase max-w-full truncate px-2">
-          {variant === 'hero' ? (
-            <>
-              <div>ALEX</div>
-              <div>CHEN</div>
-            </>
-          ) : (
-            <>
-              <div className="truncate max-w-[280px]">{displayFirst}</div>
-              <div className="truncate max-w-[280px]">{displayLast}</div>
-            </>
-          )}
-        </h2>
-      </div>
+        {/* Name Section */}
+        <div className="text-center mt-3.5 px-1">
+          <h2 className="font-serif text-2xl font-bold tracking-wide text-brand-yellow uppercase truncate max-w-full">
+            {displayName}
+          </h2>
+        </div>
 
-      {/* Info Details Section */}
-      <div className="mt-auto z-10">
-        <div className="w-full border-t border-brand-yellow/20 my-3"></div>
-
-        {variant === 'hero' ? (
-          <div className="grid grid-cols-2 gap-4 pb-2">
-            <div>
-              <p className="font-mono text-[9px] text-emerald-500/50 tracking-wider uppercase">BUILDER TITLE</p>
-              <p className="font-sans text-xs font-bold text-brand-yellow uppercase tracking-wide mt-0.5">
-                {role || 'PIXEL ARCHITECT'}
-              </p>
-            </div>
-            <div>
-              <p className="font-mono text-[9px] text-emerald-500/50 tracking-wider uppercase">CURRENT STATUS</p>
-              <p className="font-sans text-xs font-bold text-white uppercase tracking-wide mt-0.5">
-                {status || 'STILL SHIPPING'}
-              </p>
-            </div>
+        {/* Builder Title Pill */}
+        <div className="flex justify-center mt-1.5">
+          <div className="px-5 py-0.5 border border-brand-yellow text-brand-yellow font-mono text-[9px] font-bold tracking-[0.18em] rounded-full uppercase bg-brand-yellow/5">
+            {displayTitle}
           </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-y-3 gap-x-2 pb-2">
-            <div>
-              <p className="font-mono text-[9px] text-emerald-500/50 tracking-wider uppercase">ROLE</p>
-              <p className="font-sans text-[11px] font-bold text-brand-yellow uppercase tracking-wide mt-0.5 truncate max-w-[140px]">
-                {role || 'ROLE / TECH STACK'}
-              </p>
-            </div>
-            <div>
-              <p className="font-mono text-[9px] text-emerald-500/50 tracking-wider uppercase">STATUS</p>
-              <p className="font-sans text-[11px] font-bold text-brand-yellow uppercase tracking-wide mt-0.5 truncate max-w-[140px]">
-                {status || 'SHIPPING CODE'}
-              </p>
-            </div>
-            <div className="col-span-2">
-              <p className="font-mono text-[9px] text-emerald-500/50 tracking-wider uppercase">AFFILIATION</p>
-              <p className="font-sans text-[11px] font-bold text-white uppercase tracking-wide mt-0.5 truncate max-w-[290px]">
-                {college || 'COLLEGE / COMPANY'}
-              </p>
-            </div>
-          </div>
-        )}
-      </div>
+        </div>
 
-      {/* Footer Info */}
-      <div className="flex justify-between items-center text-[10px] font-mono tracking-widest text-emerald-500/50 border-t border-brand-green-medium/40 pt-2 z-10">
-        <span className={variant === 'hero' ? 'text-brand-yellow' : 'text-emerald-500/70 font-semibold'}>
-          {getHash()}
-        </span>
-        <span className="text-white/60">
-          GOA • OCT 2026
-        </span>
+        {/* Fields block list */}
+        <div className="flex flex-col w-full mt-3.5">
+          
+          {/* Role */}
+          <div className="border-t border-brand-yellow/20 w-full my-1.5"></div>
+          <div className="pl-6">
+            <p className="font-mono text-[8.5px] text-brand-yellow/70 tracking-widest uppercase">
+              ROLE / TECH STACK
+            </p>
+            <p className="font-mono text-[11px] text-white tracking-wider font-semibold uppercase mt-0.5 truncate max-w-[260px]">
+              {displayRole}
+            </p>
+          </div>
+
+          {/* Status */}
+          <div className="border-t border-brand-yellow/20 w-full my-1.5"></div>
+          <div className="pl-6">
+            <p className="font-mono text-[8.5px] text-brand-yellow/70 tracking-widest uppercase">
+              STATUS
+            </p>
+            <p className="font-mono text-[11px] text-white tracking-wider font-semibold uppercase mt-0.5 truncate max-w-[260px]">
+              {displayStatus}
+            </p>
+          </div>
+
+          {/* College / Company */}
+          <div className="border-t border-brand-yellow/20 w-full my-1.5"></div>
+          <div className="pl-6">
+            <p className="font-mono text-[8.5px] text-brand-yellow/70 tracking-widest uppercase">
+              COLLEGE / COMPANY
+            </p>
+            <p className="font-mono text-[11px] text-white tracking-wider font-semibold uppercase mt-0.5 truncate max-w-[260px]">
+              {displayCollege}
+            </p>
+          </div>
+          
+          <div className="border-t border-brand-yellow/20 w-full my-1.5"></div>
+        </div>
+
+        {/* Footer info */}
+        <div className="flex justify-between items-center text-[9px] font-mono font-bold tracking-widest text-brand-yellow px-1 mt-auto pt-1">
+          <span>#FRAMEINGOA</span>
+          <span>GOA • OCT 2026</span>
+        </div>
+
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import ActionButtons from './ActionButtons';
 
 export default function BuilderGenerator() {
   const [name, setName] = useState('');
+  const [builderTitle, setBuilderTitle] = useState('');
   const [role, setRole] = useState('');
   const [college, setCollege] = useState('');
   const [status, setStatus] = useState('Shipping Code');
@@ -80,6 +81,7 @@ export default function BuilderGenerator() {
           
           <FormSection 
             name={name} setName={setName}
+            builderTitle={builderTitle} setBuilderTitle={setBuilderTitle}
             role={role} setRole={setRole}
             college={college} setCollege={setCollege}
             status={status} setStatus={setStatus}
@@ -108,6 +110,7 @@ export default function BuilderGenerator() {
           <div className="transform scale-95 sm:scale-100 hover:scale-[1.01] transition-transform duration-300">
             <BuilderCard 
               name={name} 
+              builderTitle={builderTitle}
               role={role} 
               college={college} 
               status={status} 
@@ -121,6 +124,7 @@ export default function BuilderGenerator() {
             <BuilderCard 
               cardRef={cardRef}
               name={name} 
+              builderTitle={builderTitle}
               role={role} 
               college={college} 
               status={status} 
