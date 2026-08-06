@@ -1,0 +1,23 @@
+{
+  "name": "hh-goa-builder",
+  "version": "1.0.0",
+  "description": "HH Goa 2026 Builder Card Generator",
+  "main": "server/server.js",
+  "scripts": {
+    "client": "npm run dev --prefix client",
+    "server": "npm start --prefix server",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "build": "npm run build --prefix client"
+  },
+  "keywords": [
+    "mern",
+    "react",
+    "tailwind",
+    "builder-card"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
