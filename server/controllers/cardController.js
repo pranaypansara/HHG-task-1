@@ -20,6 +20,9 @@ function baseUrl(req) {
   return `${proto}://${req.get('host')}`;
 }
 
+// Public build-it-here landing page (opens in a new tab from the share page).
+const BUILD_HERE_URL = 'https://hhg-task-1-zeta.vercel.app/';
+
 function buildSharePayload(req, card) {
   const base = baseUrl(req);
   return {
@@ -158,14 +161,14 @@ export const renderSharePage = asyncHandler(async (req, res, next) => {
       body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 24px; background: #03150d; color: #f3f4f6; font-family: 'Inter', Arial, sans-serif; padding: 32px; box-sizing: border-box; }
       img { width: 360px; max-width: 90vw; border-radius: 6px; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6); }
       .badge { font-family: monospace; font-size: 11px; letter-spacing: 0.25em; color: #fcd34d; text-transform: uppercase; font-weight: 700; }
-      a { color: #10b981; font-weight: 600; text-decoration: none; }
-      a:hover { text-decoration: underline; }
+      .cta { display: inline-block; margin-top: 8px; background: #fcd34d; color: #03150d; padding: 14px 28px; border-radius: 6px; font-family: monospace; font-size: 13px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; box-shadow: 0 12px 30px rgba(252, 211, 77, 0.25); transition: background 0.2s ease; }
+      .cta:hover { background: #eab308; }
     </style>
   </head>
   <body>
     <div class="badge">HH GOA 2026</div>
     <img src="${imageUrl}" alt="HH Goa 2026 Builder Card" />
-    <a href="${base}">Create your own Builder Card →</a>
+    <a class="cta" href="${BUILD_HERE_URL}" target="_blank" rel="noopener noreferrer">Click here to build yours</a>
   </body>
 </html>`;
 
