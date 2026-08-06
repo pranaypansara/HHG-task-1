@@ -8,5 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    // In development, forward API / share routes to the backend so the client
+    // can always use relative paths (works identically in production).
+    proxy: {
+      '/api': 'http://localhost:5000',
+      '/card': 'http://localhost:5000',
+      '/generated': 'http://localhost:5000',
+    },
+  },
 })
-

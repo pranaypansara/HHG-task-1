@@ -1,6 +1,7 @@
-// Backend base URL. Uses Vite's dev-server proxy to avoid CORS issues and
-// works from mobile devices hitting the dev machine's IP.
-export const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+// Backend base URL. Empty by default so the client uses relative paths that work
+// in development (via Vite's proxy) and in production (same origin). Override with
+// VITE_API_URL if the frontend and backend are hosted on different domains.
+export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
 
 export const SHARE_CAPTION = 'Just built my HH Goa 2026 Builder Card 🚀\n\n#FrameInGoa #HHGoa2026';
 
