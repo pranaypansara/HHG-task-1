@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Upload, X, Check } from 'lucide-react';
 
-export default function UploadBox({ onImageChange, selectedImage }) {
+export default function UploadBox({ onImageChange, selectedImage, onFileChange }) {
   const [isDragActive, setIsDragActive] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -23,6 +23,7 @@ export default function UploadBox({ onImageChange, selectedImage }) {
 
     const objectUrl = URL.createObjectURL(file);
     onImageChange(objectUrl);
+    if (onFileChange) onFileChange(file);
   };
 
   const handleDrag = (e) => {

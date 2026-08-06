@@ -7,7 +7,8 @@ export default function FormSection({
   role, setRole,
   college, setCollege,
   status, setStatus,
-  image, setImage
+  image, setImage,
+  setFile
 }) {
   const statusOptions = [
     { value: 'Shipping Code', label: 'Shipping Code' },
@@ -20,7 +21,7 @@ export default function FormSection({
     <div className="flex flex-col space-y-6 w-full max-w-lg">
       {/* Upload Image Section */}
       <div>
-        <UploadBox onImageChange={setImage} selectedImage={image} />
+        <UploadBox onImageChange={setImage} onFileChange={setFile} selectedImage={image} />
       </div>
 
       {/* Name Input */}
