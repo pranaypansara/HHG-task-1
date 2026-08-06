@@ -6,6 +6,8 @@
 //
 // All network requests in this app go through the functions below so the
 // backend URL is never hardcoded or repeated across components.
+import { showToast } from './toast.js';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export default API_URL;
@@ -69,13 +71,59 @@ export function openShareOnX(shareUrl) {
   const webIntent = `https://twitter.com/intent/tweet?text=${encoded}`;
 
   if (isMobileDevice()) {
-    // Try the native X app first, fall back to the mobile website if it's not installed.
-    const appUri = `twitter://post?message=${encoded}`;
-    window.location.href = appUri;
-    setTimeout(() => {
-      window.location.href = webIntent;
-    }, 1200);
-  } else {
-    window.open(webIntent, '_blank', 'noopener,width=550,height=420');
+    // Mobile: the X app may swallow the intent URL and open a blank composer, so
+    // we pre-copy the full caption to the clipboard and tell the user to paste.
+    return shareOnMobile(text, webIntent);
   }
+
+  // Desktop: unchanged — open the tweet intent in a new window.
+  window.open(webIntent, '_blank', 'noopener,width=550,height=420');
+}
+
+async function shareOnMobile(text, webIntent) {
+  try {
+    await copyToClipboard(text);
+    showToast('Caption copied! If X opens with a blank post, simply paste.');
+  } catch (error) {
+    // Never block sharing because copying failed.
+    if (import.meta.env.DEV) {
+      console.error('Clipboard copy failed:', error);
+    }
+  }
+
+  // Navigate directly so the native X app can handle the intent without a popup blocker.
+  window.location.href = webIntent;
+}
+
+async function copyToClipboard(text) {
+  if (navigator.clipboard && window.isSecureContext) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  await legacyCopyFallback(text);
+}
+
+function legacyCopyFallback(text) {
+  return new Promise((resolve, reject) => {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.top = '0';
+    textArea.style.left = '0';
+    textArea.style.opacity = '0';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    let succeeded = false;
+    try {
+      succeeded = document.execCommand('copy');
+      textArea.remove();
+      if (succeeded) resolve();
+      else reject(new Error('execCommand("copy") was unsuccessful'));
+    } catch (error) {
+      textArea.remove();
+      reject(error);
+    }
+  });
 }
