@@ -46,6 +46,8 @@ server/uploads/*
 .env.development.local
 .env.test.local
 .env.production.local
+# Local-only development env (contains the local backend URL).
+.env.development
 
 # IDEs
 .vscode/

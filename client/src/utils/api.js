@@ -1,14 +1,26 @@
-// Backend base URL. Empty by default so the client uses relative paths that work
-// in development (via Vite's proxy) and in production (same origin). Override with
-// VITE_API_URL if the frontend and backend are hosted on different domains.
-export const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+// Central API configuration.
+//
+// Set VITE_API_URL per environment:
+//   client/.env.production  -> https://hhg-card-builder.onrender.com
+//   client/.env.development -> the local backend URL (see that file)
+//
+// All network requests in this app go through the functions below so the
+// backend URL is never hardcoded or repeated across components.
+const API_URL = import.meta.env.VITE_API_URL;
+
+export default API_URL;
 
 export const SHARE_CAPTION = 'Just built my HH Goa 2026 Builder Card 🚀\n\n#FrameInGoa #HHGoa2026';
+
+function api(path) {
+  return `${API_URL}${path}`;
+}
 
 export function isMobileDevice() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+// POST /api/cards/generate
 export async function generateCard({ file, name, builderTitle, role, status, college }) {
   const formData = new FormData();
   formData.append('image', file);
@@ -18,7 +30,7 @@ export async function generateCard({ file, name, builderTitle, role, status, col
   formData.append('status', status);
   formData.append('college', college);
 
-  const response = await fetch(`${API_BASE_URL}/api/cards/generate`, {
+  const response = await fetch(api('/api/cards/generate'), {
     method: 'POST',
     body: formData,
   });
@@ -31,6 +43,7 @@ export async function generateCard({ file, name, builderTitle, role, status, col
   return data;
 }
 
+// Downloads the generated PNG (imageUrl is returned by the backend).
 export async function downloadCardImage(imageUrl) {
   const response = await fetch(imageUrl);
   if (!response.ok) {
@@ -49,6 +62,7 @@ export async function downloadCardImage(imageUrl) {
   URL.revokeObjectURL(objectUrl);
 }
 
+// Opens a pre-filled X/Twitter tweet using the backend-generated shareUrl.
 export function openShareOnX(shareUrl) {
   const text = `${SHARE_CAPTION}\n\n${shareUrl}`;
   const encoded = encodeURIComponent(text);
