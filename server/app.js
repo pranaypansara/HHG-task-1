@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cardRoutes from './routes/cardRoutes.js';
@@ -9,12 +10,18 @@ import AppError from './utils/AppError.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load env before any config below reads process.env. (server.js also loads it;
+// dotenv is idempotent and this guarantees app.js sees the variables.)
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
+
 const app = express();
 
-// Middleware
+// CORS — only accept requests from the origin defined in CLIENT_URL.
+// No hardcoded origins. Preflight OPTIONS requests are handled by the cors middleware.
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: process.env.CLIENT_URL,
+    credentials: true,
     methods: ['GET', 'POST', 'OPTIONS'],
   })
 );
