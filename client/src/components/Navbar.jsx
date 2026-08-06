@@ -24,7 +24,7 @@ export default function Navbar() {
 
       <div className="hidden md:flex items-center space-x-8 font-mono text-sm tracking-widest text-emerald-500/80">
         <a 
-          href="https://github.com" 
+          href="https://github.com/pranaypansara/HHG-task-1" 
           target="_blank" 
           rel="noopener noreferrer"
           className="hover:text-brand-yellow transition-colors duration-200"
@@ -32,10 +32,12 @@ export default function Navbar() {
           GitHub
         </a>
         <a 
-          href="#" 
+          href="https://hhgoa.com" 
           className="hover:text-brand-yellow transition-colors duration-200"
+          target="_blank" 
+  rel="noopener noreferrer"
         >
-          HHG
+          HHGoa
         </a>
       </div>
 
